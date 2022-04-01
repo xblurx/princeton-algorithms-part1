@@ -13,8 +13,8 @@ class Percolation {
         }
 
         this.grid = new UF(n * n + 2);
-        this.top = this.grid.id[0];
-        this.bottom = this.grid.id[n * n + 1];
+        this.virtualTop = this.grid.id[0];
+        this.virtualBottom = this.grid.id[n * n + 1];
 
         let numbers = getNSquareNumbers(n);
 
@@ -50,53 +50,42 @@ class Percolation {
     }
 
     open(row, col) {
-        if (!this.isOpen(row, col)) {
-            const { top, right, bottom, left, topRow, rightCol, bottomRow, leftCol } = this.getNeighbors(row, col);
-            const grid = this.grid;
-            const site = grid.id[this.indexes[row][col]];
+        if (this.isOpen(row, col)) return;
 
-            this.sites[row][col] = 1;
-            this.openSites += 1;
+        const { top, right, bottom, left, topRow, rightCol, bottomRow, leftCol } = this.getNeighbors(row, col);
+        const grid = this.grid;
+        const site = grid.id[this.indexes[row][col]];
 
-            if (row == 1) {
-                if (this.isOpen(bottomRow, col)) {
-                    grid.union(site, bottom);
-                }
+        this.sites[row][col] = 1;
+        this.openSites += 1;
 
-                grid.union(this.top, site);
+        if (topRow == row) {
+            grid.union(this.virtualTop, site);
+        }
+
+        if (bottomRow == row) {
+            if (this.isFull(row, col)) {
+                grid.union(this.virtualTop, this.virtualBottom);
+                return;
             }
 
-            if (bottomRow == row) {
-                if (this.isOpen(topRow, col)) {
-                    grid.union(site, top);
-                }
+            grid.union(this.virtualBottom, site);
+        }
 
-                grid.union(this.bottom, site);
-            }
+        if (this.isOpen(topRow, col)) {
+            grid.union(top, site);
+        }
 
-            // percolation  case
-            if (row == this.indexes.length - 1) {
-                if (this.isFull(row, col)) {
-                    grid.union(this.top, this.bottom);
-                    return;
-                }
-            }
+        if (this.isOpen(row, rightCol)) {
+            grid.union(right, site);
+        }
 
-            if (this.isOpen(topRow, col)) {
-                grid.union(top, site);
-            }
+        if (this.isOpen(bottomRow, col)) {
+            grid.union(bottom, site);
+        }
 
-            if (this.isOpen(row, rightCol)) {
-                grid.union(right, site);
-            }
-
-            if (this.isOpen(bottomRow, col)) {
-                grid.union(bottom, site);
-            }
-
-            if (this.isOpen(row, leftCol)) {
-                grid.union(left, site);
-            }
+        if (this.isOpen(row, leftCol)) {
+            grid.union(left, site);
         }
     }
 
@@ -108,10 +97,10 @@ class Percolation {
         // if this.grid[row][col] site have a connection to open site in a top row via a chain of neighboring open sites
         if (this.isOpen(row, col)) {
             const { top, right, bottom, left } = this.getNeighbors(row, col);
-            const isLeft = this.grid.find(left, this.top);
-            const isRight = this.grid.find(right, this.top);
-            const isTop = this.grid.find(top, this.top);
-            const isBottom = this.grid.find(bottom, this.top);
+            const isLeft = this.grid.find(left, this.virtualTop);
+            const isRight = this.grid.find(right, this.virtualTop);
+            const isTop = this.grid.find(top, this.virtualTop);
+            const isBottom = this.grid.find(bottom, this.virtualTop);
 
             return isLeft || isRight || isTop || isBottom;
         }
@@ -122,7 +111,7 @@ class Percolation {
     }
 
     percolates() {
-        return this.grid.find(this.bottom, this.top);
+        return this.grid.find(this.virtualBottom, this.virtualTop);
     }
 }
 

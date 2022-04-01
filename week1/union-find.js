@@ -8,28 +8,32 @@ class UF {
         }
     }
 
-    slowUnion(p, q) {
-        let pid = this.id[p];
-        let qid = this.id[q];
+    root(start) {
+        let i = start;
 
-        for (let i = 0; i <= this.id.length; i++) {
-            if (this.id[i] == pid) this.id[i] = qid;
-        }
-    }
-
-    root(i) {
-        let start = i;
-        while (this.id[start] != start) {
-            start = this.id[start];
+        /*
+         * Path compression - halving path length
+         * i.e i = 9; id[i] = 6; id[id[i]] = 3;
+         * 9 -> 6 -> 3
+         * set id[i] from its parent to grandparent
+         * 9 -> 3
+         * therefore shorten the path
+         */
+        while (i != this.id[i]) {
             this.id[i] = this.id[this.id[i]];
+
+            // skip a parent, start again with its grandparent
+            i = this.id[i];
         }
 
-        return start;
+        return i;
     }
 
     union(i, j) {
         let iRoot = this.root(i);
         let jRoot = this.root(j);
+
+        if (iRoot == jRoot) return;
 
         if (this.size[jRoot] > this.size[iRoot]) {
             this.id[iRoot] = jRoot;

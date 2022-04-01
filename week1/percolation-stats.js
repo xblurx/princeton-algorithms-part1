@@ -9,7 +9,7 @@ class PercolationStats {
     PercolationStats(n, trials) {
         const results = [];
 
-        for (let i = 1; i <= trials; i++) {
+        for (let i = 0; i < trials; i++) {
             const percolationSystem = new Percolation(n);
 
             while (!percolationSystem.percolates()) {
@@ -18,7 +18,7 @@ class PercolationStats {
                 percolationSystem.open(row, col);
             }
 
-            results.push(percolationSystem.numberOfOpenSites() / (percolationSystem.grid.id.length - 2));
+            results[i] = percolationSystem.numberOfOpenSites() / (percolationSystem.grid.id.length - 2);
         }
 
         this.results = results;
@@ -47,9 +47,9 @@ class PercolationStats {
 
     main() {
         this.PercolationStats(this.n, this.trials);
-        console.log(`mean: \t ${this.mean()}`);
-        console.log(`stddev: \t ${this.stddev()}`);
-        console.log(`95% confidence interval: \t ${this.confidence()}`);
+        console.log(`mean                      =  ${this.mean()}`);
+        console.log(`stddev                    =  ${this.stddev()}`);
+        console.log(`95% confidence interval   =  ${this.confidence()}`);
     }
 }
 
