@@ -11,7 +11,7 @@ To determine a running time a log-log plot is used, so we’ll put our data on i
 
 ![Log-log plot](./images/log-log.jpg)
 
-We assume `T(n) = a^b` for come constants `a` and `b`  
+We assume `T(n) = a N^b` for come constants `a` and `b`  
 As we double the input size, we look at the running time increase  
 That indicates a quadratic algorithm, or `b = 2` (`b` is also the slope of log-log plot), which can also be found running a regression:  
 
@@ -19,7 +19,6 @@ That indicates a quadratic algorithm, or `b = 2` (`b` is also the slope of log-l
 
 Plugging in:
 ```
-T(8000) = 51.2
 51.2 = a * 8000^3
 a = 51.2 / 8000^2 ~= 1.006 * 10^-10 * n^3
 ```
