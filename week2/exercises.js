@@ -59,7 +59,7 @@ class TwoStacksQueue {
   reversedStack = new LinkedListStack();
 
   isEmpty() {
-    return this.stack.head === null || this.reversedStack.head === null;
+    return this.stack.isEmpty() && this.reversedStack.isEmpty()
   }
 
   enqueue(item) {
@@ -104,7 +104,8 @@ Q.enqueue(5);
 Q.enqueue(6);
 Q.enqueue(7);
 
-Q.dequeue();
-Q.dequeue();
+const firstDequeue = Q.dequeue();
+console.assert(firstDequeue === 1, `expected 1, got ${firstDequeue}` )
 
-for (let i of Q) console.log(i);
+const secondDequeue = Q.dequeue();
+console.assert(secondDequeue === 2, `expected 2, got ${secondDequeue}` )
