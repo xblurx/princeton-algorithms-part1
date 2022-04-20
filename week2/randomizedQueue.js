@@ -41,6 +41,4 @@ class RandomizedQueue {
   }
 }
 
-const R = new RandomizedQueue(["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
-
-for (let i of R) console.log(i);
+module.exports = RandomizedQueue;
