@@ -26,7 +26,7 @@ In example for sorting, what each of these are
 + optimal algorithm - ?
 
 Let's prove a lower bound for sorting. That's a decision tree  
-![Decision tree](https://excalidraw.com/#json=XseJNJEfaKCxTJdT2mXzs,dH9xLhLXqtXvnKv0HdXGVA)  
+![Decision tree](./images/decision_tree.png)  
 In this example, if you go from top to bottom in the tree with three compares **at most** you can determine the ordeting of the three different items.  
 The height of the tree is **worst-case** number of compares.  
 So the proposition that uses the decision tree is to prove that any compare base sorting algorithm has to use at least lg(N!) compares. And by Stirling's approximation we know that lg(N!) ~ N lg N  
