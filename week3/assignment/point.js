@@ -15,9 +15,9 @@ const ctx = canvas.getContext("2d");
 
 ctx.font = "10px serif";
 ctx.strokeStyle = "blue";
-ctx.fillStyle = "rgba(255,255,255,1)";
+ctx.fillStyle = "rgba(1,1,1,1)";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = "purple";
+ctx.fillStyle = "white";
 
 export class Point {
   constructor(x, y) {
@@ -44,11 +44,12 @@ export class Point {
   }
 
   slopeTo(that) {
+    // if the line is degenerate (line between a point and itself) or vertical
+    if (this.x == that.x) {
+      return this.y == that.y ? -Infinity : +Infinity;
+    }
     // if line is horizontal
-    if (this.y == that.y) return +0;
-    // if line is vertical
-    else if (this.x == that.x) return +Infinity;
-    else if (this.x == that.x && this.y == that.y) return -Infinity;
+    else if (this.y == that.y) return 0;
 
     return (that.y - this.y) / (that.x - this.x);
   }
