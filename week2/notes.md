@@ -15,3 +15,8 @@ Amortized analysis: when we consider the total cost averaged over all operations
 For example, repeated doubling resizing an array costs 3n every resizing, and that's a lot  
 But if we average this number by number of push operations, we'll see a constant time graph  
 ![Amortized analysis](./images/amortized-analysis.png)
+
+## Elementary sorts
+What's interesting is that a shellsort is based on using insertion sort.  
+So the basic principle is repeatedly h-sort a sequence. An h-sorted sequence is h interleaved sorted subsequences. Put simply, we just make h subsequences sorted with a step of h. Why an insertion sort? If the increments are big, the size of sub-arrays that we're sorting are small, so any method including insertion sort is going to work. The other thing is, if the increments are small, because we've done previous h-sorts for bigger values of h the array is partially sorted, and insertion sort is fast on partially sorted arrays (close to O(n)). So the implementation of a shellsort is determining an increment sequence - sequence of h's that we need to sort our array with until it is sorted (h = 1).   
+The most famous one - Knuth's is 3x+1
