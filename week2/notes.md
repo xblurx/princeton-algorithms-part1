@@ -17,6 +17,17 @@ But if we average this number by number of push operations, we'll see a constant
 ![Amortized analysis](./images/amortized-analysis.png)
 
 ## Elementary sorts
+### Shellsort
 What's interesting is that a shellsort is based on using insertion sort.  
 So the basic principle is repeatedly h-sort a sequence. An h-sorted sequence is h interleaved sorted subsequences. Put simply, we just make h subsequences sorted with a step of h. Why an insertion sort? If the increments are big, the size of sub-arrays that we're sorting are small, so any method including insertion sort is going to work. The other thing is, if the increments are small, because we've done previous h-sorts for bigger values of h the array is partially sorted, and insertion sort is fast on partially sorted arrays (close to O(n)). So the implementation of a shellsort is determining an increment sequence - sequence of h's that we need to sort our array with until it is sorted (h = 1).   
 The most famous one - Knuth's is 3x+1
+### Convex hull
+A convex hull of a set of N points is the smallest perimeter fence enclosing the points.  
+There are 2 facts about a valid convex hull:
++ You can traverse a convex hull only making counterclockwise (ccw) turns
++ The vertices of a convex hull appear in increasing order of polar angle with respect to point p with lowest y-coordinate  
+So the algorithm to find a convex hull of a set of N points is *Graham scan*:
++ Find the point with smallest y-coordinate
++ Sort the points by polar angle they make with p
++ Consider points in order, discard points until it create a ccw turn with previous  
+What interesting is, there is a simple method to find whether 3 points create a ccw turn: `(b - a) * (c - a)`, and if the value of an area that these 3 points make is greater than 0 then these 3 points create ccw turn.
